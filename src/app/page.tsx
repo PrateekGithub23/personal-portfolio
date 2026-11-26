@@ -97,15 +97,17 @@ export default function HomePage() {
               </li>
             </ul>
 
-            {/* A quiet pointer to the personal side, visible in the first screen. */}
+            {/* The personal side, visible in the first screen: the latest poem's opening lines. */}
             {latestPoem && (
               <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.heroPoem}>
-                <span className={styles.heroPoemTag}>{poemNo(latestPoem.number)}</span>
-                <span>
-                  I also write poetry: <em>{latestPoem.title}</em>
+                <span className={styles.heroPoemHead}>
+                  <span className={styles.heroPoemTag}>{poemNo(latestPoem.number)}</span>
+                  <span className={styles.heroPoemKicker}>I also write poetry</span>
                 </span>
-                <span aria-hidden="true" className={styles.heroPoemArrow}>
-                  →
+                <span className={styles.heroPoemTitle}>{latestPoem.title}</span>
+                <span className={styles.heroPoemLines}>{firstStanza(latestPoem.body)}</span>
+                <span className={styles.heroPoemRead}>
+                  Read the poem <span aria-hidden="true">→</span>
                 </span>
               </Link>
             )}

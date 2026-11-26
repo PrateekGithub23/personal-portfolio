@@ -16,7 +16,7 @@ export const site = {
     "Computer Engineering student at the University of Waterloo building backend, data and applied ML systems. Case studies with architecture, decisions and measured results.",
 
   /** Homepage opening paragraph. Plain statements about real work only. */
-  lede: "I build backend and data software, and I measure whether it does what I say it does. Recent work: a routing engine that stays consistent while hazards change underneath it, and a security platform that checks every AI-written sentence against the logs it cites.",
+  lede: "I build backend, data and security software, and I measure whether it actually works.",
 
   /** Second paragraph on the homepage: where I am now and what I'm looking for. */
   now: "Currently on a security co-op at TD. Looking for co-op opportunities, and full-time roles after I graduate in April 2028, in software, backend, data engineering and cybersecurity.",

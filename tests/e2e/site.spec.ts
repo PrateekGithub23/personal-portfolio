@@ -219,9 +219,12 @@ test.describe("missing content", () => {
     expect(res?.status()).toBe(404);
   });
 
-  test("homepage highlights the latest poem", async ({ page }) => {
+  test("homepage highlights the latest poem", async ({ page }, info) => {
+    test.skip(info.project.name === "mobile", "on phones the hero block is below the fold");
     await page.goto("/");
-    const link = page.getByRole("link", { name: /Read the poem/ });
-    await expect(link).toHaveAttribute("href", /\/beyond\/poems\//);
+    // The hero block (first) and the Beyond section both link to the poem.
+    const links = page.getByRole("link", { name: /Read the poem/ });
+    await expect(links.first()).toBeInViewport();
+    await expect(links.first()).toHaveAttribute("href", /\/beyond\/poems\//);
   });
 });
