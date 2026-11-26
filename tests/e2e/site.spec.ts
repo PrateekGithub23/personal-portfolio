@@ -201,11 +201,24 @@ test.describe("accessibility basics", () => {
 });
 
 test.describe("missing content", () => {
-  test("beyond page renders without poems and without placeholders", async ({ page }) => {
+  test("beyond page leads with poems, numbered, with no placeholders", async ({ page }) => {
     await page.goto("/beyond");
-    await expect(page.getByRole("heading", { name: "Writing" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Poems" })).toBeVisible();
     await expect(page.getByText(/lorem|coming soon|placeholder/i)).toHaveCount(0);
-    const res = await page.goto("/beyond/poems/_none");
+
+    // The featured poem links to its own reading page, which shows its number.
+    await page.getByRole("link", { name: /Poem 01/ }).first().click();
+    await expect(page).toHaveURL(/\/beyond\/poems\//);
+    await expect(page.getByText(/Poem 01 of \d+/)).toBeVisible();
+    await expect(page.locator("h1")).not.toContainText("#");
+
+    const res = await page.goto("/beyond/poems/does-not-exist");
     expect(res?.status()).toBe(404);
+  });
+
+  test("homepage highlights the latest poem", async ({ page }) => {
+    await page.goto("/");
+    const link = page.getByRole("link", { name: /Read the poem/ });
+    await expect(link).toHaveAttribute("href", /\/beyond\/poems\//);
   });
 });
