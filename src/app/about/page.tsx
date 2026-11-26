@@ -40,11 +40,8 @@ export default function AboutPage() {
             measurements, and to write down where the answer is still &ldquo;not yet&rdquo;.
           </p>
           <p>
-            Winter 2027 is my last scheduled co-op term. After it I have three study terms, the last
-            ending in winter 2028, and then I graduate. I&rsquo;m open to co-op and full-time
-            opportunities from summer 2027 onward, and to experience that fits around school, in
-            software, backend or data engineering. I&rsquo;m also interested in applied ML and
-            security engineering teams.
+            I&rsquo;m looking for co-op opportunities, and full-time roles after I graduate in April
+            2028, in software, backend, data engineering and cybersecurity.
           </p>
           <p>
             Away from the keyboard: cricket with the UW Cricket Club, tennis, and poetry.{" "}
@@ -72,7 +69,7 @@ export default function AboutPage() {
             </div>
             <div>
               <dt>Looking for</dt>
-              <dd>Co-op or full-time, summer 2027 onward</dd>
+              <dd>Co-op now; full-time after April 2028</dd>
             </div>
             <div>
               <dt>Elsewhere</dt>

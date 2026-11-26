@@ -207,7 +207,10 @@ test.describe("missing content", () => {
     await expect(page.getByText(/lorem|coming soon|placeholder/i)).toHaveCount(0);
 
     // The featured poem links to its own reading page, which shows its number.
-    await page.getByRole("link", { name: /Poem 01/ }).first().click();
+    await page
+      .getByRole("link", { name: /Poem 01/ })
+      .first()
+      .click();
     await expect(page).toHaveURL(/\/beyond\/poems\//);
     await expect(page.getByText(/Poem 01 of \d+/)).toBeVisible();
     await expect(page.locator("h1")).not.toContainText("#");

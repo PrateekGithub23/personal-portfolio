@@ -21,7 +21,7 @@ import { getProject } from "@/content/projects";
 import { site } from "@/content/site";
 import { DOMAIN_LABEL } from "@/content/types";
 import { domainHue, projectHue } from "@/lib/hues";
-import { getBeyondEntry, getPoems, poemExcerpt, poemNo } from "@/lib/markdown";
+import { firstStanza, getBeyondEntry, getPoems, poemNo } from "@/lib/markdown";
 import styles from "./page.module.css";
 
 export default function HomePage() {
@@ -96,6 +96,19 @@ export default function HomePage() {
                 </a>
               </li>
             </ul>
+
+            {/* A quiet pointer to the personal side, visible in the first screen. */}
+            {latestPoem && (
+              <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.heroPoem}>
+                <span className={styles.heroPoemTag}>{poemNo(latestPoem.number)}</span>
+                <span>
+                  I also write poetry: <em>{latestPoem.title}</em>
+                </span>
+                <span aria-hidden="true" className={styles.heroPoemArrow}>
+                  →
+                </span>
+              </Link>
+            )}
           </div>
 
           <div className={styles.mapCol}>
@@ -329,7 +342,8 @@ export default function HomePage() {
             <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.poemHighlight}>
               <span className={styles.poemKicker}>Writing · {poemNo(latestPoem.number)}</span>
               <span className={styles.poemName}>{latestPoem.title}</span>
-              <span className={styles.poemLine}>{poemExcerpt(latestPoem.body, 120)}</span>
+              {/* The opening stanza, line breaks as written. */}
+              <span className={styles.poemLine}>{firstStanza(latestPoem.body)}</span>
               <span className={styles.poemRead}>
                 Read the poem <span aria-hidden="true">→</span>
               </span>

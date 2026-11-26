@@ -123,6 +123,55 @@
   grid-column: 6 / -1;
 }
 
+/* Hero link to the latest poem: one line, in the poetry hue. */
+.heroPoem {
+  --poem: var(--hue-fitletter);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  padding: 0.45rem 0.75rem 0.45rem 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--poem) 35%, var(--rule-strong));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--poem) 7%, transparent);
+  font-size: var(--step--1);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+
+.heroPoem em {
+  font-family: var(--font-serif);
+  font-size: 1.05em;
+}
+
+.heroPoem:hover {
+  color: var(--ink);
+  border-color: var(--poem);
+  background: color-mix(in srgb, var(--poem) 13%, transparent);
+}
+
+.heroPoemTag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--poem);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.heroPoemArrow {
+  color: var(--poem);
+  transition: transform var(--dur) var(--ease);
+}
+
+.heroPoem:hover .heroPoemArrow {
+  transform: translateX(3px);
+}
+
 .mapLink {
   margin-top: 0.75rem;
   text-align: right;
@@ -803,8 +852,9 @@ a.chip:hover {
 .poemLine {
   font-family: var(--font-serif);
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--muted);
+  white-space: pre-wrap; /* keep the stanza's four lines */
 }
 
 .poemRead {

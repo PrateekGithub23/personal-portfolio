@@ -100,6 +100,15 @@ export function trimPoemBody(body: string): string {
 }
 
 /**
+ * Some editors save line breaks as Unicode LINE SEPARATOR (U+2028) or PARAGRAPH SEPARATOR (U+2029)
+ * instead of "\n". Browsers do not break lines on them, so a poem would collapse into one line per
+ * stanza. They are line breaks in the author's file, so display them as such. The file is untouched.
+ */
+export function showLineSeparators(body: string): string {
+  return body.replace(/\u2029/g, "\n\n").replace(/\u2028/g, "\n");
+}
+
+/**
  * If a poem file starts with a Markdown heading ("## Title"), that line is the title, not part of
  * the poem: return it separately so the page never shows "##". The poem's own lines are untouched.
  */
@@ -112,7 +121,7 @@ export function splitTitleHeading(body: string): { heading?: string; body: strin
 export function getPoems(): Poem[] {
   const poems = readFolder("poetry")
     .map(({ slug, data, body }) => {
-      const { heading, body: text } = splitTitleHeading(trimPoemBody(body));
+      const { heading, body: text } = splitTitleHeading(trimPoemBody(showLineSeparators(body)));
       return {
         slug,
         order: typeof data.order === "number" ? data.order : Number.MAX_SAFE_INTEGER,

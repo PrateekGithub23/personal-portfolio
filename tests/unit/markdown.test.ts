@@ -49,3 +49,14 @@ describe("poem collection", () => {
     for (const line of poem!.body.split("\n")) expect(source).toContain(line);
   });
 });
+
+describe("line separators", () => {
+  it("shows U+2028 line separators as line breaks, so each stanza keeps its lines", async () => {
+    const { getPoem, showLineSeparators } = await import("@/lib/markdown");
+    expect(showLineSeparators("go, And leave")).toBe("go,\nAnd leave");
+    const poem = getPoem("what-could-have-been")!;
+    const stanzas = poem.body.split(/\n[ \t]*\n/);
+    expect(stanzas).toHaveLength(5);
+    for (const s of stanzas) expect(s.trim().split("\n")).toHaveLength(4);
+  });
+});
