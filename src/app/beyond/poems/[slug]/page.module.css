@@ -11,9 +11,15 @@
 }
 
 .back {
+  display: flex;
+  gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--muted);
+}
+
+.no {
+  color: var(--hue-fitletter);
 }
 
 .back a {
@@ -40,7 +46,8 @@
   margin-top: 2.75rem;
   font-family: var(--font-serif);
   font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
-  line-height: 1.75;
+  line-height: 1.85;
+  color: color-mix(in srgb, var(--ink) 92%, transparent);
   white-space: pre-wrap; /* the poet's line breaks, indents and stanza gaps, exactly */
   overflow-wrap: break-word;
   hanging-punctuation: first;
@@ -71,4 +78,41 @@
   text-transform: uppercase;
   color: var(--accent);
   vertical-align: middle;
+}
+
+/* Previous / next poem */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.pager a {
+  display: grid;
+  gap: 0.25rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-1);
+  text-decoration: none;
+}
+
+.pager a span {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--hue-fitletter);
+}
+
+.nextLink {
+  text-align: right;
+  margin-left: auto;
+}
+
+.backBottom {
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
 }

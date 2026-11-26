@@ -85,6 +85,8 @@ test.describe("links and résumé", () => {
   });
 
   test("external links open safely and internal links resolve", async ({ page, request }) => {
+    // Visits every page and requests every internal link: slower than the default 30 s under load.
+    test.setTimeout(90_000);
     const seen = new Set<string>();
     for (const path of PAGES) {
       await page.goto(path);

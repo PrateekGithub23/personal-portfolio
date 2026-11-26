@@ -19,7 +19,7 @@ export const site = {
   lede: "I build backend and data software, and I measure whether it does what I say it does. Recent work: a routing engine that stays consistent while hazards change underneath it, and a security platform that checks every AI-written sentence against the logs it cites.",
 
   /** Second paragraph on the homepage: where I am now and what I'm looking for. */
-  now: "Currently on a security co-op at TD. Looking for software, backend and data engineering co-op terms from May 2027.",
+  now: "Currently on a security co-op at TD. Open to co-op and full-time opportunities from summer 2027 onward, in software, backend and data engineering.",
 
   email: "ytprateek23@gmail.com",
   github: "https://github.com/PrateekGithub23",

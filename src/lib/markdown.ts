@@ -81,8 +81,10 @@ export function getBeyondEntry(slug: string): BeyondEntry | undefined {
 
 export interface Poem {
   slug: string;
+  /** 1-based position in the collection, shown as "Poem 01". */
+  number: number;
   title: string;
-  /** Exactly as written in the file, minus the front matter and surrounding blank lines. */
+  /** Exactly as written in the file, minus the front matter, a leading title heading and surrounding blank lines. */
   body: string;
   date?: string;
   note?: string;
@@ -97,19 +99,52 @@ export function trimPoemBody(body: string): string {
   return body.replace(/^(?:[ \t]*\r?\n)+/, "").replace(/(?:\r?\n[ \t]*)+$/, "");
 }
 
-export function getPoems(): Poem[] {
-  return readFolder("poetry")
-    .map(({ slug, data, body }) => ({
-      slug,
-      title: str(data.title) ?? slug,
-      body: trimPoemBody(body),
-      date: str(data.date),
-      note: str(data.note),
-      published: data.published === true,
-    }))
-    .filter((p) => p.published || SHOW_DRAFTS)
-    .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
+/**
+ * If a poem file starts with a Markdown heading ("## Title"), that line is the title, not part of
+ * the poem: return it separately so the page never shows "##". The poem's own lines are untouched.
+ */
+export function splitTitleHeading(body: string): { heading?: string; body: string } {
+  const match = body.match(/^#{1,6}[ \t]+(.+?)[ \t]*(?:\r?\n|$)/);
+  if (!match) return { body };
+  return { heading: match[1]!.trim(), body: trimPoemBody(body.slice(match[0].length)) };
 }
+
+export function getPoems(): Poem[] {
+  const poems = readFolder("poetry")
+    .map(({ slug, data, body }) => {
+      const { heading, body: text } = splitTitleHeading(trimPoemBody(body));
+      return {
+        slug,
+        order: typeof data.order === "number" ? data.order : Number.MAX_SAFE_INTEGER,
+        title: str(data.title) ?? heading ?? slug,
+        body: text,
+        date: str(data.date),
+        note: str(data.note),
+        published: data.published === true,
+      };
+    })
+    .filter((p) => p.published || SHOW_DRAFTS)
+    // Collection order: explicit `order`, then date, then filename.
+    .sort(
+      (a, b) =>
+        a.order - b.order ||
+        (a.date ?? "").localeCompare(b.date ?? "") ||
+        a.slug.localeCompare(b.slug),
+    );
+
+  return poems.map((p, i) => ({
+    slug: p.slug,
+    number: i + 1,
+    title: p.title,
+    body: p.body,
+    date: p.date,
+    note: p.note,
+    published: p.published,
+  }));
+}
+
+/** Two-digit label used everywhere a poem is numbered, e.g. "Poem 01". */
+export const poemNo = (n: number) => `Poem ${String(n).padStart(2, "0")}`;
 
 export function getPoem(slug: string): Poem | undefined {
   return getPoems().find((p) => p.slug === slug);

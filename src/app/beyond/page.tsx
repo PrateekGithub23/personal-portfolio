@@ -1,16 +1,17 @@
 /**
  * /beyond: the personal page.
  *
- * Asymmetric editorial layout: cricket and tennis take the narrow left column, each with a small
- * plan-view line drawing; writing takes the wide right column and gets a serif reading treatment.
+ * Two parts, kept light so there is never too much on screen:
+ *   1. Sports: cricket and tennis side by side, each with a small animated plan-view drawing.
+ *   2. Writing: a numbered list of poems ("Poem 01", "Poem 02", ...). Each entry shows the title
+ *      and a short excerpt; the full poem opens on its own quiet reading page.
  * All text comes from content/beyond/*.md and poems from content/poetry/*.md.
- * If no poem is published, the writing feature shows only its short description, no placeholders.
  */
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CricketPitch, TennisCourt } from "@/components/beyond/Drawings";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { getBeyondEntry, getPoems } from "@/lib/markdown";
+import { getBeyondEntry, getPoems, poemNo } from "@/lib/markdown";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -19,8 +20,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/beyond" },
 };
 
-/** First stanza of a poem, used as its preview. */
-const firstStanza = (body: string) => body.split(/\r?\n[ \t]*\r?\n/)[0] ?? body;
+/**
+ * A short excerpt for the list: the start of the first stanza, cut at a word boundary.
+ * Display only; the poem itself is always shown in full and unchanged on its own page.
+ */
+function excerpt(body: string, max = 150): string {
+  const first = (body.split(/\r?\n[ \t]*\r?\n/)[0] ?? body).replace(/\s+/g, " ").trim();
+  if (first.length <= max) return first;
+  return `${first.slice(0, first.lastIndexOf(" ", max))}…`;
+}
 
 export default function BeyondPage() {
   const intro = getBeyondEntry("intro");
@@ -28,7 +36,6 @@ export default function BeyondPage() {
   const tennis = getBeyondEntry("tennis");
   const writing = getBeyondEntry("writing");
   const poems = getPoems();
-  const [lead, ...rest] = poems;
 
   return (
     <>
@@ -36,64 +43,76 @@ export default function BeyondPage() {
         {intro && <div dangerouslySetInnerHTML={{ __html: intro.html }} />}
       </PageHeader>
 
-      <div className={`page ${styles.grid}`}>
-        <div className={styles.sports}>
-          {cricket && (
-            <section className={styles.sport} aria-labelledby="cricket-h">
-              <CricketPitch className={styles.drawing} />
-              <h2 id="cricket-h" className={styles.sportTitle}>
-                {cricket.title}
+      <div className="page">
+        {/* ---------- Sports ---------- */}
+        <section className={styles.sports} aria-label="Sports">
+          {[
+            { entry: cricket, Drawing: CricketPitch, hue: "var(--hue-passable)", ball: "#ff5a4c" },
+            { entry: tennis, Drawing: TennisCourt, hue: "var(--hue-energy)", ball: "#d7f04a" },
+          ].map(
+            ({ entry, Drawing, hue, ball }, i) =>
+              entry && (
+                <article
+                  key={entry.slug}
+                  className={styles.sport}
+                  style={
+                    {
+                      "--hue": hue,
+                      "--ball": ball,
+                      "--reveal-delay": `${i * 100}ms`,
+                    } as React.CSSProperties
+                  }
+                  data-reveal
+                >
+                  <div className={styles.art}>
+                    <Drawing />
+                  </div>
+                  <h2 className={styles.sportTitle}>{entry.title}</h2>
+                  <div
+                    className={styles.sportText}
+                    dangerouslySetInnerHTML={{ __html: entry.html }}
+                  />
+                </article>
+              ),
+          )}
+        </section>
+
+        {/* ---------- Writing ---------- */}
+        {writing && (
+          <section className={styles.writing} aria-labelledby="writing-h" data-reveal>
+            <header className={styles.writingHead}>
+              <h2 id="writing-h" className={styles.writingTitle}>
+                {writing.title}
               </h2>
               <div
-                className={styles.sportText}
-                dangerouslySetInnerHTML={{ __html: cricket.html }}
+                className={styles.writingIntro}
+                dangerouslySetInnerHTML={{ __html: writing.html }}
               />
-            </section>
-          )}
-          {tennis && (
-            <section className={styles.sport} aria-labelledby="tennis-h">
-              <TennisCourt className={styles.drawing} />
-              <h2 id="tennis-h" className={styles.sportTitle}>
-                {tennis.title}
-              </h2>
-              <div className={styles.sportText} dangerouslySetInnerHTML={{ __html: tennis.html }} />
-            </section>
-          )}
-        </div>
+              {poems.length > 0 && (
+                <p className={styles.count}>
+                  {poems.length} {poems.length === 1 ? "poem" : "poems"}
+                </p>
+              )}
+            </header>
 
-        {writing && (
-          <section className={styles.writing} aria-labelledby="writing-h">
-            <h2 id="writing-h" className={styles.writingTitle}>
-              {writing.title}
-            </h2>
-            <div
-              className={styles.writingIntro}
-              dangerouslySetInnerHTML={{ __html: writing.html }}
-            />
-
-            {lead && (
-              <article className={styles.preview}>
-                <h3 className={styles.poemTitle}>
-                  <Link href={`/beyond/poems/${lead.slug}`}>{lead.title}</Link>
-                  {!lead.published && <span className={styles.draft}>Draft</span>}
-                </h3>
-                <p className={styles.poemPreview}>{firstStanza(lead.body)}</p>
-                <Link href={`/beyond/poems/${lead.slug}`} className={styles.read}>
-                  Read the poem
-                </Link>
-              </article>
-            )}
-
-            {rest.length > 0 && (
-              <ul className={styles.poemList}>
-                {rest.map((p) => (
+            {poems.length > 0 && (
+              <ol className={styles.poems}>
+                {poems.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/beyond/poems/${p.slug}`}>{p.title}</Link>
-                    {p.date && <span>{p.date}</span>}
-                    {!p.published && <span className={styles.draft}>Draft</span>}
+                    <Link href={`/beyond/poems/${p.slug}`} className={styles.poemCard}>
+                      <span className={styles.poemNo}>{poemNo(p.number)}</span>
+                      <span className={styles.poemTitle}>
+                        {p.title}
+                        {!p.published && <span className={styles.draft}>Draft</span>}
+                      </span>
+                      <span className={styles.poemExcerpt}>{excerpt(p.body)}</span>
+                      <span className={styles.read}>
+                        Read the poem <span aria-hidden="true">→</span>
+                      </span>
+                    </Link>
                   </li>
                 ))}
-              </ul>
+              </ol>
             )}
           </section>
         )}
