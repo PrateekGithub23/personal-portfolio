@@ -60,13 +60,7 @@
   padding: clamp(1.5rem, 3.5vw, 2.75rem) clamp(1.5rem, 3.5vw, 3rem);
   border: 1px solid color-mix(in srgb, var(--poem) 30%, var(--rule-strong));
   border-radius: var(--radius);
-  background:
-    radial-gradient(
-      ellipse at 0% 0%,
-      color-mix(in srgb, var(--poem) 10%, transparent),
-      transparent 60%
-    ),
-    var(--plate);
+  background: var(--plate);
   text-decoration: none;
   color: var(--ink);
   transition:
