@@ -9,6 +9,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { projects } from "@/content/projects";
 import { DOMAIN_LABEL } from "@/content/types";
+import { domainHue, projectHue } from "@/lib/hues";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -33,13 +34,29 @@ export default function WorkPage() {
           {projects.map((p) => {
             const m = p.headline[0];
             return (
-              <li key={p.slug} className={styles.row}>
+              <li
+                key={p.slug}
+                className={styles.row}
+                style={{ "--hue": projectHue(p.slug) } as React.CSSProperties}
+                data-reveal
+              >
                 <span className={styles.no}>{p.index}</span>
                 <div className={styles.main}>
                   <h2 className={styles.title}>
                     <Link href={`/work/${p.slug}`}>{p.title}</Link>
                   </h2>
                   <p className={styles.kind}>{p.kind}</p>
+                  <ul className={styles.tags} aria-label="Domains">
+                    {p.domains.map((d) => (
+                      <li
+                        key={d}
+                        className="tag"
+                        style={{ "--tag": domainHue(d) } as React.CSSProperties}
+                      >
+                        {DOMAIN_LABEL[d]}
+                      </li>
+                    ))}
+                  </ul>
                   <p className={styles.summary}>{p.summary}</p>
                 </div>
                 <dl className={styles.side}>

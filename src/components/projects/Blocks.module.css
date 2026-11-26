@@ -169,6 +169,7 @@
 
 .metricValue {
   grid-area: value;
+  color: var(--hue, var(--ink));
   font-size: var(--step-3);
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -286,4 +287,11 @@
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 0.5rem;
+}
+
+/* Several small charts side by side (TraceLayer before/after comparisons). */
+.chartGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
 }

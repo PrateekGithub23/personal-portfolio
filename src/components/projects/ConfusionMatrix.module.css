@@ -55,9 +55,17 @@
   border: 0;
 }
 
+.matrix td {
+  background: color-mix(in srgb, var(--hue-marketpulse) var(--heat, 4%), var(--paper));
+}
+
 .hit {
-  background: var(--plate);
-  color: var(--plate-ink);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--hue-marketpulse);
+}
+
+.hit .n {
+  color: var(--hue-marketpulse);
 }
 
 .hit .k {

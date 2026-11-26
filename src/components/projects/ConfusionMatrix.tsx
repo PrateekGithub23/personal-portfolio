@@ -37,22 +37,22 @@ export function ConfusionMatrix({ figure }: { figure?: string }) {
           <tbody>
             <tr>
               <th scope="row">Actual normal</th>
-              <td>
+              <td style={{ "--heat": "26%" } as React.CSSProperties}>
                 <span className={styles.n}>{TN}</span>
                 <span className={styles.k}>true negatives</span>
               </td>
-              <td>
+              <td style={{ "--heat": "8%" } as React.CSSProperties}>
                 <span className={styles.n}>{FP}</span>
                 <span className={styles.k}>false alarms</span>
               </td>
             </tr>
             <tr>
               <th scope="row">Actual pump</th>
-              <td>
+              <td style={{ "--heat": "6%" } as React.CSSProperties}>
                 <span className={styles.n}>{FN}</span>
                 <span className={styles.k}>missed</span>
               </td>
-              <td className={styles.hit}>
+              <td className={styles.hit} style={{ "--heat": "14%" } as React.CSSProperties}>
                 <span className={styles.n}>{TP}</span>
                 <span className={styles.k}>caught</span>
               </td>

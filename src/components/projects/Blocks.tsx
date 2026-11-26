@@ -9,6 +9,9 @@
  */
 import Image from "next/image";
 import { ArchitectureExplorer } from "@/components/architecture/ArchitectureExplorer";
+import { BarChart } from "@/components/viz/BarChart";
+import { passableLatency, traceLayerCharts } from "@/content/charts";
+import { projectHue } from "@/lib/hues";
 import type { Block, Metric } from "@/content/types";
 import { ClaimTrace } from "./ClaimTrace";
 import { ConfusionMatrix } from "./ConfusionMatrix";
@@ -135,6 +138,16 @@ function BlockView({ block, nextFigure }: { block: Block; nextFigure: () => stri
           </div>
         );
       if (block.component === "confusion-matrix") return <ConfusionMatrix figure={nextFigure()} />;
+      if (block.component === "tl-charts")
+        return (
+          <div className={styles.chartGrid}>
+            {traceLayerCharts.map((c) => (
+              <BarChart key={c.title} chart={c} hue={projectHue("tracelayer")} compact />
+            ))}
+          </div>
+        );
+      if (block.component === "pa-latency")
+        return <BarChart chart={passableLatency} hue={projectHue("passable")} />;
       return <LeadTime figure={nextFigure()} />;
   }
 }

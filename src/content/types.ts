@@ -98,7 +98,7 @@ export type Block =
   | { type: "metrics"; metrics: Metric[]; note?: string }
   | { type: "decisions"; rows: { chose: string; rejected: string; why: string }[] }
   | { type: "aside"; title: string; text: string }
-  | { type: "custom"; component: "confusion-matrix" | "claim-trace" | "lead-time" };
+  | { type: "custom"; component: "confusion-matrix" | "claim-trace" | "lead-time" | "tl-charts" | "pa-latency" };
 
 export interface Section {
   id: string;

@@ -410,6 +410,7 @@ def merkle_root(leaf_hashes: list[str]) -> str:
       id: "results",
       title: "Results",
       blocks: [
+        { type: "custom", component: "tl-charts" },
         {
           type: "metrics",
           metrics: [

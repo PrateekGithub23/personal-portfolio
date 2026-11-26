@@ -11,6 +11,7 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Inter_Tight, Newsreader } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { RevealObserver } from "@/components/ui/RevealObserver";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
@@ -53,17 +54,25 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3f3ef",
-  colorScheme: "light",
+  themeColor: "#0a0c0b",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en-CA"
+      suppressHydrationWarning
       className={`${interTight.variable} ${plexMono.variable} ${newsreader.variable}`}
     >
+      <head>
+        {/* Marks that JS is running so scroll-reveal styles apply; without JS nothing is hidden. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
+      </head>
       <body>
+        <RevealObserver />
         <a className="skip-link" href="#main">
           Skip to content
         </a>

@@ -1,5 +1,11 @@
 .header {
-  border-bottom: 1px solid var(--rule-strong);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
 }
 
 .inner {
@@ -55,14 +61,16 @@
   text-decoration: none;
   white-space: nowrap;
   padding: 0.3rem 0.6rem;
-  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  color: var(--accent);
   transition:
     background var(--dur) var(--ease),
     color var(--dur) var(--ease);
 }
 
 .resume:hover {
-  background: var(--ink);
+  background: var(--accent);
   color: var(--paper);
 }
 
@@ -76,6 +84,10 @@
 
 /* Small screens: name on its own row, links and résumé on the next, spaced to the edges. */
 @media (max-width: 40rem) {
+  /* Two-row header on phones: don't pin it, it would take a quarter of the screen. */
+  .header {
+    position: static;
+  }
   .inner {
     padding-block: 0.875rem;
   }

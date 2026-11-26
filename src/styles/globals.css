@@ -13,7 +13,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: 1.5rem;
+  scroll-padding-top: 5rem; /* clears the sticky header */
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -109,8 +109,19 @@ button {
 }
 
 ::selection {
-  background: var(--ink);
+  background: var(--accent);
   color: var(--paper);
+}
+
+/* Links: underline in the accent colour on hover, with a short colour transition. */
+a {
+  transition:
+    color var(--dur) var(--ease),
+    text-decoration-color var(--dur) var(--ease);
+}
+
+a:hover {
+  color: var(--accent);
 }
 
 /* ---------- Shared primitives ---------- */
@@ -183,4 +194,99 @@ button {
 
 .skip-link:focus {
   transform: none;
+}
+
+/* ---------- Motion primitives ---------- */
+
+/*
+ * Route transition: each page's content fades and rises in when it mounts (see app/template.tsx).
+ * Disabled entirely for prefers-reduced-motion.
+ */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-enter {
+  animation: page-in 420ms var(--ease-out) both;
+}
+
+/*
+ * Scroll reveal: elements marked data-reveal start slightly lowered and transparent, then settle
+ * when <Reveal> sees them. The hidden state only applies once JavaScript has run (html.js), so
+ * content is never invisible without JS.
+ */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal][data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Tags and backdrops ---------- */
+
+/* Domain / technology tag: a hairline chip tinted with the tag's hue (set via --tag). */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.2em 0.55em;
+  border: 1px solid color-mix(in srgb, var(--tag, var(--muted)) 40%, transparent);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--tag, var(--muted)) 9%, transparent);
+  color: var(--tag, var(--muted));
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.tag::before {
+  content: "";
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Engineering-paper grid, faded out towards the edges with a mask. Used behind heroes. */
+.grid-backdrop {
+  position: relative;
+  isolation: isolate;
+}
+
+.grid-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 100%);
+  pointer-events: none;
 }

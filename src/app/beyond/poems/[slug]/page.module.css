@@ -1,6 +1,6 @@
 /* A separate, lighter sheet with a narrow measure: the poem is the only thing on the page. */
 .sheet {
-  background: #fbfbf8;
+  background: var(--plate);
   border-bottom: 1px solid var(--rule);
 }
 

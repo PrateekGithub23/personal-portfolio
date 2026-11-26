@@ -1,0 +1,251 @@
+.map {
+  margin: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--plate) 85%, transparent);
+  overflow: hidden;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.75rem 1.125rem;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.capTitle {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.capNote {
+  color: var(--muted);
+}
+
+.lanes {
+  list-style: none;
+}
+
+.lanes li + li {
+  border-top: 1px solid var(--rule);
+}
+
+/* One lane: name block on top, track in the middle, metric underneath. */
+.lane {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1.125rem 0.875rem;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background var(--dur) var(--ease);
+}
+
+.lane::before {
+  /* coloured edge that grows on hover/focus */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--hue);
+  transform: scaleY(0.35);
+  transition: transform var(--dur) var(--ease);
+}
+
+.lane:hover,
+.lane:focus-visible {
+  background: color-mix(in srgb, var(--hue) 6%, transparent);
+  color: var(--ink);
+}
+
+.lane:hover::before,
+.lane:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.lane:focus-visible {
+  outline-offset: -2px;
+}
+
+/* Dim the other lanes while one is hovered, so the eye follows a single system. */
+.lanes:has(.lane:hover) .lane:not(:hover) {
+  opacity: 0.55;
+}
+
+.lane {
+  transition:
+    background var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.no {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--hue);
+}
+
+.title {
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.short {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+/* ---------- track ---------- */
+
+.track {
+  position: relative;
+  display: block;
+  height: 2.25rem;
+  margin-inline: 0.4rem; /* room for the first/last stage dot */
+}
+
+.rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.45rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--hue) 50%, transparent),
+    var(--rule-strong)
+  );
+}
+
+.runner {
+  position: absolute;
+  inset: 0;
+  animation: run var(--speed) linear infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.packet {
+  position: absolute;
+  left: 0;
+  top: calc(0.45rem - 1.5px);
+  width: 1.75rem;
+  height: 3px;
+  margin-left: -1.75rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--hue));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--hue) 60%, transparent);
+}
+
+@keyframes run {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.stage {
+  position: absolute;
+  top: 0.45rem;
+  width: 0.5625rem;
+  height: 0.5625rem;
+  margin: -0.28rem 0 0 -0.28rem;
+  border: 1px solid color-mix(in srgb, var(--hue) 70%, transparent);
+  border-radius: 2px;
+  background: var(--paper);
+}
+
+/*
+ * The flash is a filled square layered over the stage whose opacity and scale animate. Only
+ * opacity/transform change, so the browser composites it on the GPU instead of repainting.
+ */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 2px;
+  background: var(--hue);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--hue) 22%, transparent);
+  opacity: 0;
+  animation: hit var(--half) linear infinite;
+  animation-delay: inherit;
+  will-change: opacity, transform;
+}
+
+@keyframes hit {
+  0% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  14%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.stageLabel {
+  position: absolute;
+  top: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+/* Keep the end labels inside the lane. */
+.stage[data-end="start"] .stageLabel {
+  left: 0;
+  transform: none;
+}
+
+.stage[data-end="end"] .stageLabel {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.metric {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.metric strong {
+  font-weight: 500;
+  color: var(--hue);
+}
+
+/* Narrow lanes: alternate labels would collide, so show only first and last. */
+@media (max-width: 30rem) {
+  .stage:not([data-end]) .stageLabel {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runner {
+    display: none;
+  }
+  .stage::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,130 @@
+.chart {
+  container-type: inline-size;
+  margin: 0;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--plate);
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.dir {
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.rows {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.875rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 2fr) minmax(0, 5fr);
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.label {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.row[data-tone="hi"] .label {
+  color: var(--ink);
+}
+
+.barCell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.25rem;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.track {
+  display: block;
+  height: 0.625rem;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--rule) 60%, transparent);
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--hue) 70%, transparent);
+  transform-origin: left center;
+  transition: transform 900ms var(--ease-out);
+  transition-delay: calc(var(--i) * 120ms + 150ms);
+}
+
+.row[data-tone="hi"] .bar {
+  background: var(--hue);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--hue) 35%, transparent);
+}
+
+.row[data-tone="base"] .bar {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--rule-strong) 0 3px,
+    color-mix(in srgb, var(--rule-strong) 40%, transparent) 3px 6px
+  );
+}
+
+/* Grow from zero once revealed (only when JS is running; see globals.css). */
+:global(.js) .chart:not([data-visible]) .bar {
+  transform: scaleX(0);
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.row[data-tone="hi"] .value {
+  color: var(--hue);
+}
+
+.note {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.compact .row {
+  grid-template-columns: minmax(5rem, 2fr) minmax(0, 4fr);
+}
+
+/* Narrow cards: label above its bar. */
+@container (max-width: 22rem) {
+  .row {
+    grid-template-columns: 1fr !important;
+    gap: 0.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+  :global(.js) .chart:not([data-visible]) .bar {
+    transform: none;
+  }
+}

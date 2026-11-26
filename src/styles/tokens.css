@@ -1,35 +1,60 @@
 /*
- * Design tokens.
+ * Design tokens: dark "instrument panel" theme.
  *
- * The site is printed on "paper" (off-white) with "ink" (near-black). Figures, diagrams and code
- * sit on dark "plates" so that technical material reads as a distinct layer of the page.
+ * Variable names are semantic and kept from the first (light) version so every component flips with
+ * this file: --paper is the page background, --ink the main text, --plate a raised technical surface.
  *
- * Every text colour below was checked for WCAG AA (4.5:1) against the background it is used on:
- *   --muted     #5F6460 on paper  5.4:1     --plate-muted #888D89 on plate 5.2:1
- *   --accent    #B5400F on paper  5.1:1     --plate-accent #F07A3E on plate 6.4:1
- * #888D89 is only 3.0:1 on paper, which is why paper uses the darker --muted instead.
+ * Colour roles
+ *   - one signal accent (orange) for interaction state: focus, selection, links on hover
+ *   - one hue per project (see src/lib/hues.ts), used for that project's lanes, bars and markers
+ *   - one hue per engineering domain, used for tags
+ *
+ * Contrast (WCAG AA needs 4.5:1 for text), measured against --paper #0A0C0B / --plate #121614:
+ *   ink 16.4 · muted 7.4 · accent 8.4 · amber 11.2 · green 11.1 · violet 8.6 · cyan 11.2 · pink 8.0
+ *   blue 8.1. --dim (4.1) is for lines and decoration only, never text.
  */
 :root {
-  /* Surfaces */
-  --paper: #f3f3ef;
-  --paper-sunk: #eaeae4; /* table stripes, quiet fills */
-  --plate: #171918; /* dark figure surface */
-  --plate-deep: #101110;
+  color-scheme: dark;
+
+  /* Surfaces, darkest to lightest */
+  --paper: #0a0c0b;
+  --paper-sunk: #0f1211;
+  --plate: #121614;
+  --plate-deep: #0d100f;
+  --raised: #181d1b;
 
   /* Text */
-  --ink: #101110;
-  --muted: #5f6460;
-  --plate-ink: #f3f3ef;
-  --plate-muted: #888d89;
+  --ink: #e8ece9;
+  --muted: #98a19c;
+  --dim: #6b746f;
+  --plate-ink: var(--ink);
+  --plate-muted: var(--muted);
 
   /* Lines */
-  --rule: #d4d5cf; /* hairlines on paper (decorative, never the only signal) */
-  --rule-strong: #101110;
-  --plate-rule: #2a2d2b;
+  --rule: #1f2523;
+  --rule-strong: #343c38;
+  --plate-rule: #232a27;
+  --grid-line: rgba(232, 236, 233, 0.045);
 
-  /* The single accent: a burnt signal orange, used only for state (selected, focused, live). */
-  --accent: #b5400f;
-  --plate-accent: #f07a3e;
+  /* Signal accent */
+  --accent: #ff8a4c;
+  --plate-accent: #ff8a4c;
+  --accent-soft: rgba(255, 138, 76, 0.14);
+
+  /* Project hues */
+  --hue-tracelayer: #ffb547;
+  --hue-passable: #3ddc97;
+  --hue-marketpulse: #b79cff;
+  --hue-energy: #5ed3e8;
+  --hue-fitletter: #ff7aa8;
+
+  /* Domain hues */
+  --hue-backend: #6ea8ff;
+  --hue-data: #5ed3e8;
+  --hue-ml: #b79cff;
+  --hue-security: #ffb547;
+  --hue-fullstack: #ff7aa8;
+  --hue-infra: #3ddc97;
 
   /* Type */
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
@@ -42,21 +67,25 @@
   --step-1: clamp(1.1875rem, 1.12rem + 0.3vw, 1.375rem);
   --step-2: clamp(1.4375rem, 1.3rem + 0.6vw, 1.875rem);
   --step-3: clamp(1.875rem, 1.55rem + 1.4vw, 2.875rem);
-  --step-4: clamp(2.375rem, 1.8rem + 2.6vw, 4.25rem);
+  --step-4: clamp(2.5rem, 1.8rem + 3.2vw, 4.75rem);
 
   /* Layout */
   --page-max: 78rem; /* content width; side margins come from --gutter */
   --gutter: clamp(1.25rem, 0.6rem + 2.6vw, 3rem);
   --col-gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
   --measure: 66ch;
+  --radius: 6px;
 
-  /* Motion: short and only where it explains a state change. */
+  /* Motion */
   --ease: cubic-bezier(0.2, 0, 0, 1);
-  --dur: 160ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 180ms;
+  --dur-slow: 700ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur: 0ms;
+    --dur-slow: 0ms;
   }
 }

@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import { Blocks, MetricTable, figureCounter } from "@/components/projects/Blocks";
 import { getProject, projects } from "@/content/projects";
 import { DOMAIN_LABEL, type Project } from "@/content/types";
+import { domainHue, projectHue } from "@/lib/hues";
 import styles from "./page.module.css";
 
 export const dynamicParams = false;
@@ -43,7 +44,11 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   const next = projects[(position + 1) % projects.length]!;
 
   return (
-    <article className={styles.article} data-hero={project.hero}>
+    <article
+      className={styles.article}
+      data-hero={project.hero}
+      style={{ "--hue": projectHue(project.slug) } as React.CSSProperties}
+    >
       {/* ---------- Header ---------- */}
       <header className={`page ${styles.header}`}>
         <p className={styles.kicker}>
@@ -53,6 +58,13 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </p>
         <h1 className={styles.title}>{project.title}</h1>
         <p className={styles.dek}>{project.kind}</p>
+        <ul className={styles.tags} aria-label="Domains">
+          {project.domains.map((d) => (
+            <li key={d} className="tag" style={{ "--tag": domainHue(d) } as React.CSSProperties}>
+              {DOMAIN_LABEL[d]}
+            </li>
+          ))}
+        </ul>
 
         <dl className={styles.facts}>
           <div>
@@ -62,10 +74,6 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           <div>
             <dt>Status</dt>
             <dd>{project.status}</dd>
-          </div>
-          <div>
-            <dt>Domains</dt>
-            <dd>{project.domains.map((d) => DOMAIN_LABEL[d]).join(", ")}</dd>
           </div>
           <div>
             <dt>Stack</dt>
@@ -91,7 +99,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       <Hero project={project} />
 
       {/* ---------- At a glance ---------- */}
-      <section className={`page ${styles.glance}`} aria-labelledby="glance">
+      <section className={`page ${styles.glance}`} aria-labelledby="glance" data-reveal>
         <h2 id="glance" className="visually-hidden">
           At a glance
         </h2>
@@ -127,7 +135,13 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
 
         <div className={styles.sections}>
           {project.sections.map((s, i) => (
-            <section key={s.id} id={s.id} className={styles.section} aria-labelledby={`${s.id}-h`}>
+            <section
+              key={s.id}
+              id={s.id}
+              className={styles.section}
+              aria-labelledby={`${s.id}-h`}
+              data-reveal
+            >
               <h2 id={`${s.id}-h`} className={styles.sectionTitle}>
                 <span className={styles.sectionNo}>{String(i + 1).padStart(2, "0")}</span>
                 {s.title}

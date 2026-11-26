@@ -67,7 +67,9 @@
 .preview {
   margin-top: 2.5rem;
   padding: clamp(1.5rem, 4vw, 3rem);
-  background: #fbfbf8; /* a slightly lighter sheet: the literary pages sit on their own paper */
+  background: var(
+    --plate
+  ); /* a slightly lighter sheet: the literary pages sit on their own paper */
   border: 1px solid var(--rule);
 }
 

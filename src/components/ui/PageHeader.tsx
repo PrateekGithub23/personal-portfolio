@@ -12,7 +12,7 @@ interface Props {
 
 export function PageHeader({ kicker, title, children }: Props) {
   return (
-    <header className={`page ${styles.header}`}>
+    <header className={`page grid-backdrop ${styles.header}`}>
       <p className={styles.kicker}>{kicker}</p>
       <h1 className={styles.title}>{title}</h1>
       {children && <div className={styles.intro}>{children}</div>}

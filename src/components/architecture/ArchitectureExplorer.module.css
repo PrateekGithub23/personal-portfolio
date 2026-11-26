@@ -14,7 +14,7 @@
 }
 
 .figNo {
-  color: var(--accent);
+  color: var(--hue, var(--accent));
   font-weight: 500;
 }
 
@@ -25,6 +25,9 @@
 
 /* Dark plate that holds the technical drawing. */
 .plate {
+  border: 1px solid var(--rule-strong);
+  border-top: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
   background: var(--plate);
   color: var(--plate-ink);
   padding: clamp(1rem, 2.5vw, 2rem);
@@ -65,8 +68,23 @@
 }
 
 .edgeOn line {
-  stroke: var(--plate-accent);
+  stroke: var(--hue, var(--plate-accent));
   stroke-width: 1.75;
+  stroke-dasharray: 6 5;
+  animation: flow 900ms linear infinite;
+}
+
+/* Marching dashes on the selected component's connections show the direction data moves. */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -11;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edgeOn line {
+    animation: none;
+  }
 }
 
 .edge text,
@@ -84,7 +102,7 @@
 }
 
 .edgeOn text {
-  fill: var(--plate-accent);
+  fill: var(--hue, var(--plate-accent));
 }
 
 .arrowHead {
@@ -92,7 +110,7 @@
 }
 
 .arrowHeadOn {
-  fill: var(--plate-accent);
+  fill: var(--hue, var(--plate-accent));
 }
 
 .node {
@@ -104,21 +122,28 @@
   padding: 0.4rem 0.75rem;
   text-align: left;
   background: var(--plate-deep);
-  border: 1px solid var(--plate-muted);
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
   color: var(--plate-ink);
   cursor: pointer;
   transition:
     border-color var(--dur) var(--ease),
-    background var(--dur) var(--ease);
+    background var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
 }
 
 .node:hover {
-  border-color: var(--plate-ink);
+  border-color: color-mix(in srgb, var(--hue, var(--plate-accent)) 60%, var(--rule-strong));
+  transform: translateY(-1px);
 }
 
 .node[aria-pressed="true"] {
-  border-color: var(--plate-accent);
-  box-shadow: inset 3px 0 0 var(--plate-accent);
+  border-color: var(--hue, var(--plate-accent));
+  background: color-mix(in srgb, var(--hue, var(--plate-accent)) 10%, var(--plate-deep));
+  box-shadow:
+    inset 3px 0 0 var(--hue, var(--plate-accent)),
+    0 0 24px -6px color-mix(in srgb, var(--hue, var(--plate-accent)) 55%, transparent);
 }
 
 .nodeLabel {
@@ -177,7 +202,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--plate-accent);
+  color: var(--hue, var(--plate-accent));
 }
 
 .fact dd {

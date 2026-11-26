@@ -368,6 +368,7 @@ func (h *Holder) Apply(ev Event) error {
       id: "results",
       title: "Results",
       blocks: [
+        { type: "custom", component: "pa-latency" },
         {
           type: "metrics",
           note: "All measured locally on an Apple M4 (16 GiB) with Postgres and Redis in Docker and k6 on the same machine. They show behaviour under load, not production capacity.",

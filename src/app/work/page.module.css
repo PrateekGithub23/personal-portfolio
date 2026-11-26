@@ -3,6 +3,7 @@
 }
 
 .row {
+  position: relative;
   display: grid;
   grid-template-columns: 3rem minmax(0, 7fr) minmax(0, 5fr);
   gap: 1rem var(--col-gap);
@@ -10,10 +11,35 @@
   border-bottom: 1px solid var(--rule-strong);
 }
 
+.row::before {
+  /* project hue marker that extends on hover */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: clamp(1.5rem, 3vw, 2.5rem);
+  width: 2px;
+  height: 1.5rem;
+  background: var(--hue);
+  transition: height var(--dur) var(--ease);
+}
+
+.row:hover::before {
+  height: calc(100% - 2 * clamp(1.5rem, 3vw, 2.5rem));
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+  list-style: none;
+}
+
 .no {
+  padding-left: 0.75rem;
   font-family: var(--font-mono);
   font-size: var(--step--1);
-  color: var(--accent);
+  color: var(--hue);
   padding-top: 0.5rem;
 }
 
@@ -27,7 +53,7 @@
 }
 
 .title a:hover {
-  color: var(--accent);
+  color: var(--hue);
 }
 
 .kind {

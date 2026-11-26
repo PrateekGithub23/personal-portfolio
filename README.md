@@ -61,8 +61,13 @@ Note that anything in `content/` is committed to Git, even when unpublished.
 
 ## How it is built
 
-- Next.js App Router, TypeScript strict, CSS Modules with design tokens in `src/styles/tokens.css`.
-  No UI framework, no animation library, no analytics.
+- Next.js App Router, TypeScript strict, CSS Modules with design tokens in `src/styles/tokens.css`
+  (dark theme; one hue per project in `src/lib/hues.ts`). No UI framework, no animation library,
+  no analytics.
+- Motion is CSS: the homepage system map (`src/components/home/SystemMap.tsx`), bar charts that
+  grow on scroll (`src/components/viz/BarChart.tsx`), scroll reveals (`data-reveal` +
+  `RevealObserver`) and a route transition (`src/app/template.tsx`). Chart data is in
+  `src/content/charts.ts`; homepage lanes in `src/content/system-map.ts`.
 - Every route is statically generated. The only client-side JavaScript is the navigation's active
   state, the architecture explorer and the claim trace.
 - Fonts (Inter Tight, IBM Plex Mono, Newsreader for poems) are self-hosted by `next/font`.
@@ -86,17 +91,15 @@ apex, a `CNAME` for `www`). HTTPS is automatic. Update `NEXT_PUBLIC_SITE_URL` an
 
 ## Measured quality (local, production build)
 
-Lighthouse 12, local machine, `next start`. Mobile uses Lighthouse's default throttling.
+Lighthouse 12, local machine, `next start`. Mobile uses Lighthouse's default throttling; mobile
+performance varies by a few points between runs, so ranges are shown where runs differed.
 
 | Page | Mobile perf | Desktop perf | Accessibility | Best practices | SEO |
 |---|---|---|---|---|---|
-| `/` | 97 | 100 | 100 | 100 | 100 |
-| `/work` | 98 | 100 | 100 | 100 | 100 |
-| `/work/tracelayer` | 96 | 100 | 100 | 100 | 100 |
+| `/` | 93–96 | 100 | 100 | 100 | 100 |
+| `/work/tracelayer` | 95 | 100 | 100 | 100 | 100 |
 | `/work/passable` | 96 | 100 | 100 | 100 | 100 |
-| `/work/marketpulse` | 96 | 100 | 100 | 100 | 100 |
-| `/experience` | 97 | 100 | 100 | 100 | 100 |
-| `/about` | 98 | 100 | 100 | 100 | 100 |
-| `/beyond` | 96 | 100 | 100 | 100 | 100 |
+| `/beyond` | 95 | 100 | 100 | 100 | 100 |
 
-Scores on a real deployment will differ; re-measure after deploying.
+All animations use transform/opacity only (Lighthouse reports no non-composited animations) and are
+disabled under `prefers-reduced-motion`. Scores on a real deployment will differ; re-measure there.
