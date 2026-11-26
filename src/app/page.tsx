@@ -21,7 +21,7 @@ import { getProject } from "@/content/projects";
 import { site } from "@/content/site";
 import { DOMAIN_LABEL } from "@/content/types";
 import { domainHue, projectHue } from "@/lib/hues";
-import { getBeyondEntry, getPoems, poemNo, previewLines } from "@/lib/markdown";
+import { getBeyondEntry, getPoems, previewLines } from "@/lib/markdown";
 import styles from "./page.module.css";
 
 export default function HomePage() {
@@ -100,10 +100,7 @@ export default function HomePage() {
             {/* A compact poem snippet: same quiet treatment as in Beyond engineering below. */}
             {latestPoem && (
               <div className={styles.heroSnippet}>
-                <p className={styles.snippetKicker}>
-                  <span className={styles.snippetTag}>{poemNo(latestPoem.number)}</span>I also write
-                  poetry
-                </p>
+                <p className={styles.snippetKicker}>I also write poetry</p>
                 <p className={styles.poemTitle}>{latestPoem.title}</p>
                 <p className={styles.poemExcerpt}>
                   {previewLines(latestPoem).map((line, i) => (

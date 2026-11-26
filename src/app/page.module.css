@@ -125,9 +125,9 @@
 
 .heroSnippet {
   --poem: var(--hue-fitletter);
-  max-width: 30rem;
-  margin-top: 2rem;
-  padding: 1.1rem 1.35rem 1rem;
+  max-width: 25rem;
+  margin-top: 1.75rem;
+  padding: 0.9rem 1.1rem 0.85rem;
   border: 1px solid color-mix(in srgb, var(--poem) 40%, var(--rule-strong));
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--poem) 7%, var(--plate));
@@ -140,24 +140,12 @@
 }
 
 .snippetKicker {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0.35rem !important;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--poem);
-}
-
-.snippetTag {
-  padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-  background: var(--poem);
-  color: var(--paper);
-  letter-spacing: 0.02em;
-  text-transform: none;
 }
 
 /* In the hero card, the excerpt rule and the link take the poetry hue. */
