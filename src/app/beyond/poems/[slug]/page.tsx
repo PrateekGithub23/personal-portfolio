@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { site } from "@/content/site";
-import { getPoem, getPoems, poemNo } from "@/lib/markdown";
+import { getPoem, getPoems, poemNo, stanzas } from "@/lib/markdown";
 import styles from "./page.module.css";
 
 export const dynamicParams = false;
@@ -61,7 +61,22 @@ export default async function PoemPage({ params }: PageProps<"/beyond/poems/[slu
           {site.name}
           {poem.date && <> · {poem.date}</>}
         </p>
-        <div className={styles.poem}>{poem.body}</div>
+        {/*
+          One block per stanza, one element per line: lines that are too long for a phone wrap
+          with a hanging indent, and the gap between stanzas stays the same at every width.
+          The words are exactly as written; only the line structure is used.
+        */}
+        <div className={styles.poem}>
+          {stanzas(poem.body).map((lines, i) => (
+            <p key={i} className={styles.stanza} data-stanza>
+              {lines.map((line, j) => (
+                <span key={j} className={styles.line}>
+                  {line}
+                </span>
+              ))}
+            </p>
+          ))}
+        </div>
         {poem.note && (
           <aside className={styles.note}>
             <p className={styles.noteLabel}>Note</p>

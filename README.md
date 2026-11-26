@@ -56,6 +56,8 @@ build if one remains. Or replace the PDF in `public/resume/` directly, keeping t
 **Add a poem.** Drop it in `input/poetry/` (private) and run `npm run poems:import`. It is copied
 byte for byte into `content/poetry/` with `published: false`. Check it in `npm run dev`, then set
 `published: true`. The body is rendered exactly as written (line breaks, indentation, stanza gaps).
+Optional front matter: `order` (position in the collection, shown as Poem 01, 02, ...) and
+`preview` (which stanza the homepage's Beyond engineering section quotes; defaults to the first).
 Note that anything in `content/` is committed to Git, even when unpublished.
 
 **Add an engineering note.** Create `content/notes/<slug>.md` with `title`, `summary`, `date` and

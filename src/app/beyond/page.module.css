@@ -75,24 +75,9 @@
     box-shadow var(--dur) var(--ease);
 }
 
-.featured::before {
-  /* a large quotation mark as the card's one ornament */
-  content: "\201C";
-  position: absolute;
-  right: clamp(1rem, 3vw, 2.25rem);
-  top: 0.25rem;
-  font-family: var(--font-serif);
-  font-size: 7rem;
-  line-height: 1;
-  color: color-mix(in srgb, var(--poem) 35%, transparent);
-  pointer-events: none;
-}
-
 .featured:hover {
   color: var(--ink);
   border-color: var(--poem);
-  transform: translateY(-2px);
-  box-shadow: 0 24px 48px -28px color-mix(in srgb, var(--poem) 50%, transparent);
 }
 
 .featuredTitle {
@@ -100,7 +85,6 @@
   font-style: italic;
   font-size: var(--step-3);
   line-height: 1.1;
-  padding-right: 4rem;
 }
 
 .stanza {

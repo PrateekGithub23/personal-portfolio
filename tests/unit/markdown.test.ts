@@ -60,3 +60,17 @@ describe("line separators", () => {
     for (const s of stanzas) expect(s.trim().split("\n")).toHaveLength(4);
   });
 });
+
+describe("poem preview", () => {
+  it("uses the stanza chosen in front matter, lines exactly as written", async () => {
+    const { getPoem, previewLines, stanzas } = await import("@/lib/markdown");
+    const poem = getPoem("what-could-have-been")!;
+    expect(stanzas(poem.body)).toHaveLength(5);
+    expect(previewLines(poem)).toEqual([
+      "I'm not angry, just a little sad,",
+      "Missing something I never really had.",
+      "And though there's nothing left to say,",
+      "Some thoughts just never go away.",
+    ]);
+  });
+});

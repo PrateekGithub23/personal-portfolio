@@ -21,7 +21,7 @@ import { getProject } from "@/content/projects";
 import { site } from "@/content/site";
 import { DOMAIN_LABEL } from "@/content/types";
 import { domainHue, projectHue } from "@/lib/hues";
-import { firstStanza, getBeyondEntry, getPoems, poemNo } from "@/lib/markdown";
+import { getBeyondEntry, getPoems, previewLines } from "@/lib/markdown";
 import styles from "./page.module.css";
 
 export default function HomePage() {
@@ -96,21 +96,6 @@ export default function HomePage() {
                 </a>
               </li>
             </ul>
-
-            {/* The personal side, visible in the first screen: the latest poem's opening lines. */}
-            {latestPoem && (
-              <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.heroPoem}>
-                <span className={styles.heroPoemHead}>
-                  <span className={styles.heroPoemTag}>{poemNo(latestPoem.number)}</span>
-                  <span className={styles.heroPoemKicker}>I also write poetry</span>
-                </span>
-                <span className={styles.heroPoemTitle}>{latestPoem.title}</span>
-                <span className={styles.heroPoemLines}>{firstStanza(latestPoem.body)}</span>
-                <span className={styles.heroPoemRead}>
-                  Read the poem <span aria-hidden="true">→</span>
-                </span>
-              </Link>
-            )}
           </div>
 
           <div className={styles.mapCol}>
@@ -338,31 +323,32 @@ export default function HomePage() {
           </h2>
           <Link href="/beyond">The personal page →</Link>
         </div>
-        <div className={styles.beyondGrid}>
-          {/* The poem is the highlight of this section, so it gets the large card. */}
-          {latestPoem && (
-            <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.poemHighlight}>
-              <span className={styles.poemKicker}>Writing · {poemNo(latestPoem.number)}</span>
-              <span className={styles.poemName}>{latestPoem.title}</span>
-              {/* The opening stanza, line breaks as written. */}
-              <span className={styles.poemLine}>{firstStanza(latestPoem.body)}</span>
-              <span className={styles.poemRead}>
-                Read the poem <span aria-hidden="true">→</span>
-              </span>
-            </Link>
+        <ul className={styles.beyondGrid}>
+          {[cricket, tennis].map(
+            (entry) =>
+              entry && (
+                <li key={entry.slug} className={styles.interest}>
+                  <h3 className={styles.beyondName}>{entry.title}</h3>
+                  <div dangerouslySetInnerHTML={{ __html: entry.html }} />
+                </li>
+              ),
           )}
-          <ul className={styles.beyondList}>
-            {[cricket, tennis].map(
-              (entry) =>
-                entry && (
-                  <li key={entry.slug}>
-                    <span className={styles.beyondName}>{entry.title}</span>
-                    <span dangerouslySetInnerHTML={{ __html: entry.html }} />
-                  </li>
-                ),
-            )}
-          </ul>
-        </div>
+          {/* Writing: a short, quiet excerpt of the latest poem (stanza chosen in its front matter). */}
+          {latestPoem && (
+            <li className={`${styles.interest} ${styles.writing}`}>
+              <h3 className={styles.beyondName}>Writing</h3>
+              <p className={styles.poemTitle}>{latestPoem.title}</p>
+              <p className={styles.poemExcerpt}>
+                {previewLines(latestPoem).map((line, i) => (
+                  <span key={i}>{line}</span>
+                ))}
+              </p>
+              <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.poemLink}>
+                Read full poem
+              </Link>
+            </li>
+          )}
+        </ul>
       </section>
     </>
   );

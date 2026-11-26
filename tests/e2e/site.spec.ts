@@ -219,12 +219,27 @@ test.describe("missing content", () => {
     expect(res?.status()).toBe(404);
   });
 
-  test("homepage highlights the latest poem", async ({ page }, info) => {
-    test.skip(info.project.name === "mobile", "on phones the hero block is below the fold");
+  test("homepage keeps poetry in Beyond engineering, not the hero", async ({ page }) => {
     await page.goto("/");
-    // The hero block (first) and the Beyond section both link to the poem.
-    const links = page.getByRole("link", { name: /Read the poem/ });
-    await expect(links.first()).toBeInViewport();
-    await expect(links.first()).toHaveAttribute("href", /\/beyond\/poems\//);
+    // Nothing about poetry in the first screen: engineering stays the focus.
+    await expect(page.getByRole("link", { name: /Read full poem/ })).not.toBeInViewport();
+
+    const beyond = page.locator("section[aria-labelledby=beyond-title]");
+    await expect(beyond.getByText("What Could Have Been")).toBeVisible();
+    await expect(beyond.getByText("I'm not angry, just a little sad,")).toBeVisible();
+    await expect(beyond.getByText("Some thoughts just never go away.")).toBeVisible();
+    const link = beyond.getByRole("link", { name: "Read full poem" });
+    await expect(link).toHaveAttribute("href", "/beyond/poems/what-could-have-been");
+    await link.click();
+    await expect(page).toHaveURL(/\/beyond\/poems\/what-could-have-been$/);
+  });
+
+  test("poem page shows every stanza and line without horizontal overflow", async ({ page }) => {
+    await page.goto("/beyond/poems/what-could-have-been");
+    const stanzas = page.locator("[data-stanza]");
+    await expect(stanzas).toHaveCount(5);
+    for (const s of await stanzas.all()) await expect(s.locator("> span")).toHaveCount(4);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
   });
 });

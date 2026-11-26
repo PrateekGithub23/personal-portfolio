@@ -88,6 +88,8 @@ export interface Poem {
   body: string;
   date?: string;
   note?: string;
+  /** 1-based stanza shown in previews (front matter `preview`); defaults to the first. */
+  previewStanza: number;
   published: boolean;
 }
 
@@ -129,6 +131,7 @@ export function getPoems(): Poem[] {
         body: text,
         date: str(data.date),
         note: str(data.note),
+        previewStanza: typeof data.preview === "number" ? data.preview : 1,
         published: data.published === true,
       };
     })
@@ -148,12 +151,30 @@ export function getPoems(): Poem[] {
     body: p.body,
     date: p.date,
     note: p.note,
+    previewStanza: p.previewStanza,
     published: p.published,
   }));
 }
 
 /** Two-digit label used everywhere a poem is numbered, e.g. "Poem 01". */
 export const poemNo = (n: number) => `Poem ${String(n).padStart(2, "0")}`;
+
+/**
+ * A poem as stanzas of lines. Splitting only on line breaks and blank lines: every line's text is
+ * exactly as written (trailing spaces trimmed, which are invisible anyway).
+ */
+export function stanzas(body: string): string[][] {
+  return body
+    .split(/\r?\n[ \t]*\r?\n/)
+    .map((stanza) => stanza.split(/\r?\n/).map((line) => line.replace(/[ \t]+$/, "")))
+    .filter((lines) => lines.some((l) => l.trim() !== ""));
+}
+
+/** The stanza chosen for previews (front matter `preview`), falling back to the first. */
+export function previewLines(poem: Poem): string[] {
+  const all = stanzas(poem.body);
+  return all[poem.previewStanza - 1] ?? all[0] ?? [];
+}
 
 /** The first stanza of a poem, exactly as written (used for previews). */
 export function firstStanza(body: string): string {

@@ -45,12 +45,26 @@
 .poem {
   margin-top: 2.75rem;
   font-family: var(--font-serif);
-  font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
-  line-height: 1.85;
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem);
+  line-height: 1.75;
   color: color-mix(in srgb, var(--ink) 92%, transparent);
-  white-space: pre-wrap; /* the poet's line breaks, indents and stanza gaps, exactly */
+}
+
+.stanza {
+  margin: 0;
+}
+
+.stanza + .stanza {
+  margin-top: 1.6em; /* one consistent gap between stanzas, at every width */
+}
+
+/* Each line on its own; if it wraps, the continuation is indented so it reads as one line. */
+.line {
+  display: block;
+  padding-left: 1.25em;
+  text-indent: -1.25em;
+  white-space: pre-wrap;
   overflow-wrap: break-word;
-  hanging-punctuation: first;
 }
 
 .note {
