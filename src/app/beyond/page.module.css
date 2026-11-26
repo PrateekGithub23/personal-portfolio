@@ -1,15 +1,215 @@
-/* ---------- Sports: two cards side by side ---------- */
+/* ================= Writing: first and largest ================= */
+
+.writing {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: 1.5rem;
+  padding-top: clamp(2rem, 4vw, 3rem);
+  --poem: var(--hue-fitletter);
+}
+
+.writingHead {
+  grid-column: 1 / span 4;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--poem);
+}
+
+.writingTitle {
+  margin-top: 0.5rem;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--step-4);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.writingIntro {
+  margin-top: 0.75rem;
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--muted);
+}
+
+.count {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.poemsCol {
+  grid-column: 5 / -1;
+  display: grid;
+  gap: 1rem;
+}
+
+/* The featured poem: a reading sheet showing the whole opening stanza. */
+.featured {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(1.5rem, 3.5vw, 2.75rem) clamp(1.5rem, 3.5vw, 3rem);
+  border: 1px solid color-mix(in srgb, var(--poem) 30%, var(--rule-strong));
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      ellipse at 0% 0%,
+      color-mix(in srgb, var(--poem) 10%, transparent),
+      transparent 60%
+    ),
+    var(--plate);
+  text-decoration: none;
+  color: var(--ink);
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.featured::before {
+  /* a large quotation mark as the card's one ornament */
+  content: "\201C";
+  position: absolute;
+  right: clamp(1rem, 3vw, 2.25rem);
+  top: 0.25rem;
+  font-family: var(--font-serif);
+  font-size: 7rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--poem) 35%, transparent);
+  pointer-events: none;
+}
+
+.featured:hover {
+  color: var(--ink);
+  border-color: var(--poem);
+  transform: translateY(-2px);
+  box-shadow: 0 24px 48px -28px color-mix(in srgb, var(--poem) 50%, transparent);
+}
+
+.featuredTitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-3);
+  line-height: 1.1;
+  padding-right: 4rem;
+}
+
+.stanza {
+  margin-top: 0.5rem;
+  max-width: 40rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  line-height: 1.8;
+  white-space: pre-wrap; /* exactly as written */
+  color: color-mix(in srgb, var(--ink) 88%, transparent);
+}
+
+.poemNo {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--poem);
+}
+
+.read {
+  margin-top: 0.5rem;
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--poem);
+}
+
+.read span {
+  display: inline-block;
+  transition: transform var(--dur) var(--ease);
+}
+
+.featured:hover .read span {
+  transform: translateX(4px);
+}
+
+/* Further poems: compact numbered rows under the featured one. */
+.poems {
+  list-style: none;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.poemRow {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-areas: "no title" ". excerpt";
+  gap: 0.2rem 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.poemRow .poemNo {
+  grid-area: no;
+  padding-top: 0.35rem;
+}
+
+.poemTitle {
+  grid-area: title;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-1);
+}
+
+.poemRow:hover .poemTitle {
+  color: var(--poem);
+}
+
+.poemExcerpt {
+  grid-area: excerpt;
+  font-family: var(--font-serif);
+  color: var(--muted);
+}
+
+.draft {
+  margin-left: 0.75rem;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (max-width: 56rem) {
+  .writingHead,
+  .poemsCol {
+    grid-column: 1 / -1;
+  }
+  .writingTitle {
+    font-size: var(--step-3);
+  }
+}
+
+/* ================= Sports: two smaller cards ================= */
 
 .sports {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--col-gap);
-  padding-top: clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(3.5rem, 7vw, 5rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule-strong);
 }
 
 .sport {
   position: relative;
-  padding: 1.25rem 1.25rem 1.5rem;
+  padding: 1rem 1rem 1.25rem;
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius);
   background: var(--paper-sunk);
@@ -32,7 +232,7 @@
 .art {
   display: grid;
   place-items: center;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 5 / 2;
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
   background:
@@ -42,7 +242,7 @@
       transparent 70%
     ),
     var(--plate);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .art svg {
@@ -50,161 +250,18 @@
 }
 
 .sportTitle {
-  font-size: var(--step-2);
-  letter-spacing: -0.03em;
+  font-size: var(--step-1);
+  letter-spacing: -0.02em;
 }
 
 .sportText {
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
+  font-size: var(--step--1);
   color: var(--muted);
 }
 
 @media (max-width: 44rem) {
   .sports {
     grid-template-columns: 1fr;
-  }
-}
-
-/* ---------- Writing: numbered poems ---------- */
-
-.writing {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--col-gap);
-  row-gap: 1.5rem;
-  margin-top: clamp(3.5rem, 7vw, 5.5rem);
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--rule-strong);
-}
-
-.writingHead {
-  grid-column: 1 / span 4;
-}
-
-.writingTitle {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: var(--step-3);
-  letter-spacing: -0.01em;
-}
-
-.writingIntro {
-  margin-top: 0.5rem;
-  font-family: var(--font-serif);
-  font-size: var(--step-1);
-  color: var(--muted);
-}
-
-.count {
-  margin-top: 1rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--hue-fitletter);
-}
-
-.poems {
-  grid-column: 6 / -1;
-  list-style: none;
-  display: grid;
-  gap: 1rem;
-}
-
-/* One poem: number, title, a two-line excerpt, and a prompt to read on. */
-.poemCard {
-  position: relative;
-  display: grid;
-  gap: 0.5rem;
-  padding: 1.5rem 1.5rem 1.25rem 1.75rem;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  background: var(--plate);
-  text-decoration: none;
-  color: var(--ink);
-  transition:
-    border-color var(--dur) var(--ease),
-    transform var(--dur) var(--ease);
-}
-
-.poemCard::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 1.25rem;
-  bottom: 1.25rem;
-  width: 2px;
-  background: var(--hue-fitletter);
-  transform-origin: top;
-  transform: scaleY(0.35);
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-.poemCard:hover {
-  border-color: color-mix(in srgb, var(--hue-fitletter) 45%, var(--rule-strong));
-  transform: translateY(-2px);
-  color: var(--ink);
-}
-
-.poemCard:hover::before {
-  transform: scaleY(1);
-}
-
-.poemNo {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--hue-fitletter);
-}
-
-.poemTitle {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: var(--step-2);
-  line-height: 1.2;
-}
-
-.poemExcerpt {
-  font-family: var(--font-serif);
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: var(--muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.read {
-  margin-top: 0.5rem;
-  font-size: var(--step--1);
-  font-weight: 500;
-  color: var(--hue-fitletter);
-}
-
-.read span {
-  display: inline-block;
-  transition: transform var(--dur) var(--ease);
-}
-
-.poemCard:hover .read span {
-  transform: translateX(4px);
-}
-
-.draft {
-  margin-left: 0.75rem;
-  font-family: var(--font-mono);
-  font-style: normal;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-@media (max-width: 56rem) {
-  .writingHead,
-  .poems {
-    grid-column: 1 / -1;
   }
 }

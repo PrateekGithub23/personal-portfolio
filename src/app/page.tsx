@@ -21,7 +21,7 @@ import { getProject } from "@/content/projects";
 import { site } from "@/content/site";
 import { DOMAIN_LABEL } from "@/content/types";
 import { domainHue, projectHue } from "@/lib/hues";
-import { getBeyondEntry } from "@/lib/markdown";
+import { getBeyondEntry, getPoems, poemExcerpt, poemNo } from "@/lib/markdown";
 import styles from "./page.module.css";
 
 export default function HomePage() {
@@ -32,6 +32,7 @@ export default function HomePage() {
   const fitLetter = getProject("fit-letter")!;
   const cricket = getBeyondEntry("cricket");
   const tennis = getBeyondEntry("tennis");
+  const latestPoem = getPoems().at(-1);
 
   /** Small coloured domain tags for a project. */
   const tags = (domains: typeof tracelayer.domains) => (
@@ -322,21 +323,30 @@ export default function HomePage() {
           </h2>
           <Link href="/beyond">The personal page →</Link>
         </div>
-        <ul className={styles.beyondList}>
-          {[cricket, tennis].map(
-            (entry) =>
-              entry && (
-                <li key={entry.slug}>
-                  <span className={styles.beyondName}>{entry.title}</span>
-                  <span dangerouslySetInnerHTML={{ __html: entry.html }} />
-                </li>
-              ),
+        <div className={styles.beyondGrid}>
+          {/* The poem is the highlight of this section, so it gets the large card. */}
+          {latestPoem && (
+            <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.poemHighlight}>
+              <span className={styles.poemKicker}>Writing · {poemNo(latestPoem.number)}</span>
+              <span className={styles.poemName}>{latestPoem.title}</span>
+              <span className={styles.poemLine}>{poemExcerpt(latestPoem.body, 120)}</span>
+              <span className={styles.poemRead}>
+                Read the poem <span aria-hidden="true">→</span>
+              </span>
+            </Link>
           )}
-          <li>
-            <span className={styles.beyondName}>Writing</span>
-            <span>I also write poetry.</span>
-          </li>
-        </ul>
+          <ul className={styles.beyondList}>
+            {[cricket, tennis].map(
+              (entry) =>
+                entry && (
+                  <li key={entry.slug}>
+                    <span className={styles.beyondName}>{entry.title}</span>
+                    <span dangerouslySetInnerHTML={{ __html: entry.html }} />
+                  </li>
+                ),
+            )}
+          </ul>
+        </div>
       </section>
     </>
   );

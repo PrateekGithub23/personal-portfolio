@@ -734,14 +734,106 @@ a.chip:hover {
   letter-spacing: -0.03em;
 }
 
+.beyondGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--col-gap);
+  padding-top: 1.25rem;
+  align-items: start;
+}
+
+/* Highlighted link to the latest poem. */
+.poemHighlight {
+  --poem: var(--hue-fitletter);
+  position: relative;
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid color-mix(in srgb, var(--poem) 35%, var(--rule-strong));
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      ellipse at 0% 0%,
+      color-mix(in srgb, var(--poem) 12%, transparent),
+      transparent 65%
+    ),
+    var(--plate);
+  text-decoration: none;
+  color: var(--ink);
+  overflow: hidden;
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.poemHighlight::after {
+  content: "\201C";
+  position: absolute;
+  right: 1.25rem;
+  top: -0.5rem;
+  font-family: var(--font-serif);
+  font-size: 6rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--poem) 30%, transparent);
+}
+
+.poemHighlight:hover {
+  color: var(--ink);
+  border-color: var(--poem);
+  transform: translateY(-2px);
+  box-shadow: 0 24px 48px -28px color-mix(in srgb, var(--poem) 50%, transparent);
+}
+
+.poemKicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--poem);
+}
+
+.poemName {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-2);
+  line-height: 1.15;
+}
+
+.poemLine {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.poemRead {
+  margin-top: 0.25rem;
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--poem);
+}
+
+.poemRead span {
+  display: inline-block;
+  transition: transform var(--dur) var(--ease);
+}
+
+.poemHighlight:hover .poemRead span {
+  transform: translateX(4px);
+}
+
 .beyondList {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem var(--col-gap);
-  padding-top: 1rem;
+  gap: 1rem;
   font-size: var(--step--1);
   color: var(--muted);
+}
+
+.beyondList li {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
 }
 
 .beyondList p {
@@ -755,8 +847,8 @@ a.chip:hover {
   color: var(--ink);
 }
 
-@media (max-width: 44rem) {
-  .beyondList {
+@media (max-width: 48rem) {
+  .beyondGrid {
     grid-template-columns: 1fr;
   }
 }

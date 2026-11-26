@@ -146,6 +146,21 @@ export function getPoems(): Poem[] {
 /** Two-digit label used everywhere a poem is numbered, e.g. "Poem 01". */
 export const poemNo = (n: number) => `Poem ${String(n).padStart(2, "0")}`;
 
+/** The first stanza of a poem, exactly as written (used for previews). */
+export function firstStanza(body: string): string {
+  return body.split(/\r?\n[ \t]*\r?\n/)[0] ?? body;
+}
+
+/**
+ * A one-line excerpt cut at a word boundary, for compact lists. Display only: the poem itself is
+ * always shown in full and unchanged on its own page.
+ */
+export function poemExcerpt(body: string, max = 150): string {
+  const first = firstStanza(body).replace(/\s+/g, " ").trim();
+  if (first.length <= max) return first;
+  return `${first.slice(0, first.lastIndexOf(" ", max))}…`;
+}
+
 export function getPoem(slug: string): Poem | undefined {
   return getPoems().find((p) => p.slug === slug);
 }
