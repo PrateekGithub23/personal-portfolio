@@ -1,0 +1,76 @@
+.footer {
+  margin-top: clamp(4rem, 8vw, 8rem);
+  background: var(--plate-deep);
+  color: var(--plate-ink);
+}
+
+.footer a {
+  color: var(--plate-ink);
+}
+
+.footer a:hover {
+  text-decoration-color: var(--plate-accent);
+}
+
+.footer :global(.meta),
+.footer :global(.meta-caps) {
+  color: var(--plate-muted);
+}
+
+.footer :focus-visible {
+  outline-color: var(--plate-accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 2.5rem var(--col-gap);
+  padding-block: clamp(3rem, 6vw, 5rem) 2rem;
+}
+
+.lead {
+  grid-column: 1 / span 5;
+}
+
+.title {
+  font-size: var(--step-3);
+}
+
+.text {
+  margin-top: 1rem;
+  color: var(--plate-muted);
+  max-width: 34ch;
+}
+
+.list {
+  grid-column: 7 / span 6;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem var(--col-gap);
+  align-content: start;
+}
+
+.list dd {
+  margin-top: 0.25rem;
+  font-size: var(--step-1);
+  overflow-wrap: anywhere;
+}
+
+.colophon {
+  grid-column: 1 / -1;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--plate-rule);
+}
+
+@media (max-width: 56rem) {
+  .lead,
+  .list {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 30rem) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}

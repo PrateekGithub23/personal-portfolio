@@ -1,0 +1,61 @@
+.list {
+  list-style: none;
+}
+
+.list a {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  grid-template-areas: "date title" ". summary";
+  gap: 0.25rem var(--col-gap);
+  padding-block: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+}
+
+.date {
+  grid-area: date;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.title {
+  grid-area: title;
+  font-size: var(--step-1);
+  font-weight: 600;
+}
+
+.summary {
+  grid-area: summary;
+  color: var(--muted);
+}
+
+.article {
+  padding-top: clamp(2rem, 5vw, 4rem);
+}
+
+.back {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.heading {
+  margin-top: 1rem;
+  max-width: 24ch;
+  font-size: var(--step-4);
+  letter-spacing: -0.035em;
+}
+
+.body {
+  margin-top: 2rem;
+  font-size: var(--step-1);
+  line-height: 1.6;
+}
+
+.body pre {
+  background: var(--plate);
+  color: var(--plate-ink);
+  padding: 1rem;
+  overflow-x: auto;
+}

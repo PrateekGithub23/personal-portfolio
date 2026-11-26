@@ -1,0 +1,42 @@
+{
+  "name": "personal-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prateek Sharma's engineering portfolio: projects, case studies, experience and writing.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "poems:import": "node scripts/import-poems.mjs",
+    "resume:build": "node scripts/build-resume.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.0",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "eslint-config-prettier": "^10",
+    "prettier": "^3.10.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4"
+  },
+  "engines": {
+    "node": ">=20.9"
+  }
+}

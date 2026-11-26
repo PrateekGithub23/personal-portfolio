@@ -1,0 +1,148 @@
+.figure {
+  margin-block: 2.5rem;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.figNo {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.alertDot,
+.peakRing {
+  display: inline-block;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+}
+
+.alertDot {
+  background: var(--accent);
+}
+
+.peakRing {
+  border: 1.5px solid var(--ink);
+}
+
+.table {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--rule);
+}
+
+.label {
+  width: 7.5rem;
+  padding: 0.5rem 0;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+}
+
+.label span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.track {
+  height: 2.5rem;
+  padding: 0 1rem;
+}
+
+/* The lane is the 0..8 minute axis; marks are positioned as percentages of it. */
+.lane,
+.ticks {
+  position: relative;
+  display: block;
+  height: 2.5rem; /* explicit: percentage heights don't resolve inside table cells */
+}
+
+.axis {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+.peak,
+.alert {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.peak {
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+}
+
+.alert {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--accent);
+}
+
+.outcome {
+  width: 7rem;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink);
+}
+
+.outcome[data-miss] {
+  color: var(--muted);
+}
+
+.ticks span {
+  position: absolute;
+  top: 0.25rem;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+@media (max-width: 30rem) {
+  .label {
+    width: 5.25rem;
+  }
+  .outcome {
+    width: 4.75rem;
+  }
+}

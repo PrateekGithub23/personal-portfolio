@@ -1,0 +1,47 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: 3rem;
+  padding-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+.text {
+  grid-column: 1 / span 7;
+  font-size: var(--step-1);
+  line-height: 1.55;
+}
+
+.facts {
+  grid-column: 9 / -1;
+}
+
+.facts dl > div {
+  padding-block: 0.75rem;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.facts dd {
+  margin-top: 0.25rem;
+  font-size: var(--step--1);
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 52rem) {
+  .text,
+  .facts {
+    grid-column: 1 / -1;
+  }
+}

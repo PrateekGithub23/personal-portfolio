@@ -1,0 +1,39 @@
+.header {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  padding-block: clamp(2.25rem, 5vw, 4.5rem) clamp(1.75rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.kicker {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.title {
+  grid-column: 1 / span 8;
+  margin-top: 0.75rem;
+  font-size: var(--step-4);
+  letter-spacing: -0.04em;
+}
+
+.intro {
+  grid-column: 1 / span 7;
+  margin-top: 1.25rem;
+  font-size: var(--step-1);
+  line-height: 1.45;
+}
+
+.intro > * + * {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 52rem) {
+  .title,
+  .intro {
+    grid-column: 1 / -1;
+  }
+}

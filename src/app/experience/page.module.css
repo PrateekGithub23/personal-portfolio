@@ -1,0 +1,147 @@
+.role {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: 1rem;
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+  border-bottom: 1px solid var(--rule-strong);
+  scroll-margin-top: 1rem;
+}
+
+.when {
+  grid-column: 1 / span 3;
+}
+
+.dates {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.where {
+  margin-top: 0.25rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.what {
+  grid-column: 4 / span 6;
+}
+
+.title {
+  font-size: var(--step-2);
+  letter-spacing: -0.03em;
+}
+
+.org {
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+.points {
+  list-style: none;
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.points li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.points li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 0.75em;
+  width: 0.625rem;
+  height: 1px;
+  background: var(--ink);
+}
+
+.tools {
+  grid-column: 10 / -1;
+  font-size: var(--step--1);
+}
+
+.toolsLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 56rem) {
+  .when,
+  .what,
+  .tools {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- capabilities ---------- */
+
+.caps {
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.capsTitle {
+  font-size: var(--step-3);
+  letter-spacing: -0.035em;
+}
+
+.capsIntro {
+  margin-top: 0.75rem;
+  color: var(--muted);
+}
+
+.capsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem var(--col-gap);
+  margin-top: 2rem;
+}
+
+.capsGrid dt {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.capsGrid dd {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--step--1);
+}
+
+.capsGrid dd a {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.capsGrid dd a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 64rem) {
+  .capsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .capsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,147 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: 3rem;
+  padding-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* ---------- sports: narrow left column ---------- */
+
+.sports {
+  grid-column: 1 / span 4;
+  display: grid;
+  gap: 2.5rem;
+  align-content: start;
+}
+
+.sport {
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.drawing {
+  width: 100%;
+  height: auto;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+/* vector-effect is not inherited in SVG, so apply it to every shape: lines stay hairline at any size. */
+.drawing * {
+  vector-effect: non-scaling-stroke;
+}
+
+.sportTitle {
+  font-size: var(--step-1);
+  letter-spacing: -0.02em;
+}
+
+.sportText {
+  margin-top: 0.375rem;
+  color: var(--muted);
+}
+
+/* ---------- writing: wide right column, serif ---------- */
+
+.writing {
+  grid-column: 6 / -1;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.writingTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--step-3);
+  letter-spacing: -0.01em;
+}
+
+.writingIntro {
+  margin-top: 0.75rem;
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--muted);
+}
+
+.preview {
+  margin-top: 2.5rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: #fbfbf8; /* a slightly lighter sheet: the literary pages sit on their own paper */
+  border: 1px solid var(--rule);
+}
+
+.poemTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: var(--step-2);
+  letter-spacing: 0;
+}
+
+.poemTitle a {
+  text-decoration: none;
+}
+
+.poemPreview {
+  margin-top: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  white-space: pre-wrap; /* preserve the poet's line breaks exactly */
+}
+
+.read {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: var(--step--1);
+}
+
+.poemList {
+  list-style: none;
+  margin-top: 1.5rem;
+}
+
+.poemList li {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+}
+
+.poemList span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.draft {
+  margin-left: 0.75rem;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (max-width: 56rem) {
+  .sports {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--col-gap);
+  }
+  .writing {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+}
+
+@media (max-width: 30rem) {
+  .sports {
+    grid-template-columns: 1fr;
+  }
+}

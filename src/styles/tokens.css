@@ -1,0 +1,62 @@
+/*
+ * Design tokens.
+ *
+ * The site is printed on "paper" (off-white) with "ink" (near-black). Figures, diagrams and code
+ * sit on dark "plates" so that technical material reads as a distinct layer of the page.
+ *
+ * Every text colour below was checked for WCAG AA (4.5:1) against the background it is used on:
+ *   --muted     #5F6460 on paper  5.4:1     --plate-muted #888D89 on plate 5.2:1
+ *   --accent    #B5400F on paper  5.1:1     --plate-accent #F07A3E on plate 6.4:1
+ * #888D89 is only 3.0:1 on paper, which is why paper uses the darker --muted instead.
+ */
+:root {
+  /* Surfaces */
+  --paper: #f3f3ef;
+  --paper-sunk: #eaeae4; /* table stripes, quiet fills */
+  --plate: #171918; /* dark figure surface */
+  --plate-deep: #101110;
+
+  /* Text */
+  --ink: #101110;
+  --muted: #5f6460;
+  --plate-ink: #f3f3ef;
+  --plate-muted: #888d89;
+
+  /* Lines */
+  --rule: #d4d5cf; /* hairlines on paper (decorative, never the only signal) */
+  --rule-strong: #101110;
+  --plate-rule: #2a2d2b;
+
+  /* The single accent: a burnt signal orange, used only for state (selected, focused, live). */
+  --accent: #b5400f;
+  --plate-accent: #f07a3e;
+
+  /* Type */
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+
+  /* A modular scale that tightens on small screens instead of shrinking everything uniformly. */
+  --step--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --step-1: clamp(1.1875rem, 1.12rem + 0.3vw, 1.375rem);
+  --step-2: clamp(1.4375rem, 1.3rem + 0.6vw, 1.875rem);
+  --step-3: clamp(1.875rem, 1.55rem + 1.4vw, 2.875rem);
+  --step-4: clamp(2.375rem, 1.8rem + 2.6vw, 4.25rem);
+
+  /* Layout */
+  --page-max: 78rem; /* content width; side margins come from --gutter */
+  --gutter: clamp(1.25rem, 0.6rem + 2.6vw, 3rem);
+  --col-gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
+  --measure: 66ch;
+
+  /* Motion: short and only where it explains a state change. */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 160ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms;
+  }
+}

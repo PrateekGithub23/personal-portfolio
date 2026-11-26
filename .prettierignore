@@ -1,0 +1,6 @@
+input/
+.next/
+node_modules/
+content/poetry/
+public/
+content/

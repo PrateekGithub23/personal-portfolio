@@ -1,0 +1,117 @@
+.figure {
+  margin-block: 2rem;
+}
+
+.caption {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.figNo {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--col-gap);
+  align-items: end;
+  padding-top: 1.25rem;
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.matrix th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.5rem;
+  vertical-align: bottom;
+}
+
+.matrix tbody th {
+  vertical-align: middle;
+  width: 7.5rem;
+}
+
+.matrix td {
+  border: 1px solid var(--rule-strong);
+  padding: 1rem;
+  vertical-align: top;
+}
+
+.matrix thead td {
+  border: 0;
+}
+
+.hit {
+  background: var(--plate);
+  color: var(--plate-ink);
+}
+
+.hit .k {
+  color: var(--plate-muted);
+}
+
+.n {
+  display: block;
+  font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.k {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.derived {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.derived dt {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.big {
+  display: block;
+  font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.calc {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+@media (max-width: 40rem) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+  .matrix tbody th {
+    width: 5.5rem;
+  }
+  .matrix td {
+    padding: 0.75rem;
+  }
+}
