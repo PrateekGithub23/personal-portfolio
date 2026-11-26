@@ -96,6 +96,21 @@ export default function HomePage() {
                 </a>
               </li>
             </ul>
+
+            {/* A compact poem snippet: same quiet treatment as in Beyond engineering below. */}
+            {latestPoem && (
+              <div className={styles.heroSnippet}>
+                <p className={styles.poemTitle}>{latestPoem.title}</p>
+                <p className={styles.poemExcerpt}>
+                  {previewLines(latestPoem).map((line, i) => (
+                    <span key={i}>{line}</span>
+                  ))}
+                </p>
+                <Link href={`/beyond/poems/${latestPoem.slug}`} className={styles.poemLink}>
+                  Read full poem
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className={styles.mapCol}>

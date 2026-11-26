@@ -123,6 +123,16 @@
   grid-column: 6 / -1;
 }
 
+.heroSnippet {
+  margin-top: 2.25rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.heroSnippet p {
+  margin: 0;
+}
+
 .mapLink {
   margin-top: 0.75rem;
   text-align: right;

@@ -219,10 +219,19 @@ test.describe("missing content", () => {
     expect(res?.status()).toBe(404);
   });
 
-  test("homepage keeps poetry in Beyond engineering, not the hero", async ({ page }) => {
+  test("homepage shows a compact poem snippet in the hero and in Beyond engineering", async ({
+    page,
+  }, info) => {
     await page.goto("/");
-    // Nothing about poetry in the first screen: engineering stays the focus.
-    await expect(page.getByRole("link", { name: /Read full poem/ })).not.toBeInViewport();
+    // Hero snippet: visible in the first screen on desktop and tablet.
+    const hero = page.locator("section[aria-labelledby=intro-name]");
+    if (info.project.name !== "mobile") {
+      await expect(hero.getByText("I'm not angry, just a little sad,")).toBeInViewport();
+    }
+    await expect(hero.getByRole("link", { name: "Read full poem" })).toHaveAttribute(
+      "href",
+      "/beyond/poems/what-could-have-been",
+    );
 
     const beyond = page.locator("section[aria-labelledby=beyond-title]");
     await expect(beyond.getByText("What Could Have Been")).toBeVisible();
@@ -239,7 +248,9 @@ test.describe("missing content", () => {
     const stanzas = page.locator("[data-stanza]");
     await expect(stanzas).toHaveCount(5);
     for (const s of await stanzas.all()) await expect(s.locator("> span")).toHaveCount(4);
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
     expect(overflow).toBeLessThanOrEqual(0);
   });
 });
