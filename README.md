@@ -1,5 +1,7 @@
 # Prateek Sharma: engineering portfolio
 
+Live at **https://prateeksharma-dev.vercel.app** (auto-deploys from `main` via Vercel).
+
 A static Next.js site: projects with case studies, experience, an about page and a small personal
 section. Every number on the site comes from a project's own docs or recorded results, and is shown
 with the conditions it was measured under.
